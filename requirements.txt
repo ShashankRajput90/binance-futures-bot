@@ -1,0 +1,12 @@
+# Binance Futures Trading Bot Requirements
+# Python 3.8+
+
+# Core Dependencies
+python-binance==1.0.19
+streamlit==1.39.0
+pandas==2.2.3
+numpy==2.1.3
+
+# Optional but recommended
+plotly==5.24.1
+python-dotenv==1.0.1

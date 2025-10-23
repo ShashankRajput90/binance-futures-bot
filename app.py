@@ -29,40 +29,9 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #F0B90B;
-        text-align: center;
-        padding: 1rem;
-    }
-    .sub-header {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #FCD535;
-        margin-top: 1rem;
-    }
-    .success-box {
-        padding: 1rem;
-        background-color: #d4edda;
-        border: 1px solid #c3e6cb;
-        border-radius: 0.25rem;
-        color: #155724;
-    }
-    .error-box {
-        padding: 1rem;
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-        border-radius: 0.25rem;
-        color: #721c24;
-    }
-    .info-box {
-        padding: 1rem;
-        background-color: #d1ecf1;
-        border: 1px solid #bee5eb;
-        border-radius: 0.25rem;
-        color: #0c5460;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    html, body, [class*="css"], .stApp { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; }
+    .main-header { display:none; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -74,55 +43,39 @@ if 'authenticated' not in st.session_state:
 if 'order_history' not in st.session_state:
     st.session_state.order_history = []
 
-# Main header
-st.markdown('<div class="main-header">📈 Binance Futures Trading Bot</div>', unsafe_allow_html=True)
-st.markdown("---")
+# Main header removed per user request
 
-# Sidebar - API Configuration
+# Sidebar removed the header per user request; keep inputs for API credentials
 with st.sidebar:
-    st.markdown("### 🔐 API Configuration")
-
     api_key = st.text_input("API Key", type="password", help="Enter your Binance Testnet API Key")
     api_secret = st.text_input("API Secret", type="password", help="Enter your Binance Testnet API Secret")
-
     use_testnet = st.checkbox("Use Testnet", value=True, help="Uncheck for production (NOT RECOMMENDED)")
 
-    if st.button("🔌 Connect to Binance", use_container_width=True):
+    if st.button("Connect to Binance", use_container_width=True):
         if api_key and api_secret:
             try:
                 with st.spinner("Connecting and syncing time with Binance..."):
                     st.session_state.bot = BinanceFuturesBot(api_key, api_secret, testnet=use_testnet)
-                    
-                    # Test the connection
                     test_result = st.session_state.bot.test_connection()
-                    
                     if test_result['success']:
                         st.session_state.authenticated = True
-                        st.success(f"✅ {test_result['message']}")
-                        st.info(f"💰 Wallet Balance: ${test_result.get('balance', 0):,.2f} USDT")
+                        st.success(f"{test_result['message']}")
+                        st.info(f"Wallet Balance: ${test_result.get('balance', 0):,.2f} USDT")
                     else:
-                        st.error(f"❌ {test_result['message']}")
+                        st.error(f"{test_result['message']}")
                         st.session_state.authenticated = False
             except Exception as e:
-                st.error(f"❌ Connection failed: {str(e)}")
+                st.error(f"Connection failed: {str(e)}")
                 st.session_state.authenticated = False
         else:
-            st.warning("⚠️ Please enter both API Key and Secret")
+            st.warning("Please enter both API Key and Secret")
 
     if st.session_state.authenticated:
-        st.markdown("---")
-        st.markdown("### 💰 Account Info")
         try:
             balance = st.session_state.bot.get_account_balance()
             st.metric("USDT Balance", f"${balance:,.2f}")
         except Exception as e:
             st.error(f"Error: {str(e)}")
-
-    st.markdown("---")
-    st.markdown("### 📚 Quick Links")
-    st.markdown("- [Binance Testnet](https://testnet.binancefuture.com)")
-    st.markdown("- [API Documentation](https://binance-docs.github.io/apidocs/futures/en/)")
-    st.markdown("- [GitHub Repository](#)")
 
 # Main content
 if not st.session_state.authenticated:
@@ -353,16 +306,7 @@ else:
                 else:
                     st.error(result.get('error', 'Unknown error'))
 
-    # Order History Section
-    st.markdown("---")
-    st.markdown('<div class="sub-header">📜 Recent Order History</div>', unsafe_allow_html=True)
-
-    if st.session_state.order_history:
-        for idx, order in enumerate(reversed(st.session_state.order_history[-10:]), 1):
-            with st.expander(f"Order {len(st.session_state.order_history) - idx + 1}: {order.get('symbol', 'N/A')} - {order.get('side', 'N/A')}"):
-                st.json(order)
-    else:
-        st.info("No orders placed yet. Start trading to see your order history here.")
+    # Order History removed per user request
 
 # Footer
 st.markdown("---")

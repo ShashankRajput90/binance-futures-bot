@@ -1,37 +1,62 @@
 # 🚀 Binance Futures Trading Bot
 
-Professional CLI and Streamlit UI for Binance USDT-M Futures trading with market, limit, and OCO orders.
+A professional, feature-rich trading bot for Binance USDT-M Futures with a beautiful Streamlit UI interface.
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-![Binance](https://img.shields.io/badge/binance-testnet-yellow)
+![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Testnet](https://img.shields.io/badge/testnet-enabled-orange)
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Order Types](#order-types)
+- [Screenshots](#screenshots)
+- [Logging](#logging)
+- [Testing](#testing)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## ✨ Features
 
 ### Core Features (Mandatory)
-- ✅ **Market Orders**: Immediate execution at market price
-- ✅ **Limit Orders**: Execute at specific price levels
-- ✅ **Input Validation**: Comprehensive parameter validation
-- ✅ **Error Handling**: Robust exception handling
-- ✅ **Structured Logging**: All trades logged to `bot.log`
+- ✅ **Market Orders**: Execute trades immediately at current market price
+- ✅ **Limit Orders**: Place orders at specific price levels
+- ✅ **Input Validation**: Comprehensive validation of symbols, quantities, and prices
+- ✅ **Error Handling**: Robust exception handling with detailed error messages
+- ✅ **Logging System**: Structured logging with timestamps and trade history
 
-### Bonus Features
-- ✅ **OCO Orders**: Take-profit and stop-loss simultaneously
-- ✅ **Streamlit UI**: Beautiful web interface
-- ✅ **CLI Support**: Command-line trading
+### Advanced Features (Bonus)
+- ✅ **Stop-Limit Orders**: Conditional orders triggered at stop price
+- ✅ **OCO (One-Cancels-the-Other)**: Simultaneous take-profit and stop-loss orders
+- ✅ **TWAP Strategy**: Time-Weighted Average Price execution
+- ✅ **Grid Trading**: Automated buy-low/sell-high within price ranges
+
+### UI Features
+- 🎨 **Beautiful Streamlit Interface**: Professional, responsive web UI
+- 📊 **Real-time Balance Display**: Live USDT balance tracking
+- 📜 **Order History**: View recent order executions
+- 🎯 **Multiple Trading Modes**: Tabbed interface for different order types
+- 🔐 **Secure API Management**: Protected credential input
 
 ## 📦 Prerequisites
 
-- Python 3.8+
+- Python 3.8 or higher
 - Binance Futures Testnet account
-- API Key and Secret
+- API Key and Secret from Binance Testnet
 
-## 🛠️ Installation
+## 🔧 Installation
 
-### Step 1: Clone Repository
+### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/ShashankRajput90/Shashank_Lodhi_binance_bot.git
-cd Shashank_Lodhi_binance_bot
+git clone https://github.com/yourusername/binance-futures-bot.git
+cd binance-futures-bot
 ```
 
 ### Step 2: Create Virtual Environment
@@ -71,39 +96,53 @@ cp .env.example .env
 
 ## 🚀 Usage
 
-### Streamlit UI (Recommended)
+### Method 1: Streamlit UI (Recommended)
 
 ```bash
-cd src
 streamlit run app.py
 ```
 
-Open browser at `http://localhost:8501`
+The application will open in your browser at `http://localhost:8501`
 
-**Using the UI:**
-1. Enter API Key and Secret in sidebar
-2. Click "Connect"
-3. View your balance
-4. Select order type tab
-5. Enter details and place orders
+#### Using the UI:
 
-### Python API
+1. **Connect to Binance**:
+   - Enter your API Key and Secret in the sidebar
+   - Click "Connect to Binance"
+   - Verify your balance is displayed
+
+2. **Place Orders**:
+   - Navigate to the desired order type tab
+   - Enter symbol (e.g., BTCUSDT), quantity, and price
+   - Click the order button
+   - View order confirmation and details
+
+### Method 2: Python CLI
 
 ```python
-from src.bot import BasicBot
+from src.bot_core import BinanceFuturesBot
 
-Initialize
-bot = BasicBot(api_key="your_key", api_secret="your_secret", testnet=True)
+# Initialize bot
+bot = BinanceFuturesBot(
+    api_key="your_api_key",
+    api_secret="your_api_secret",
+    testnet=True
+)
 
-Market order
-bot.place_market_order("BTCUSDT", "BUY", 0.01)
+# Place market order
+result = bot.place_market_order(
+    symbol="BTCUSDT",
+    side="BUY",
+    quantity=0.01
+)
 
-Limit order
-bot.place_limit_order("BTCUSDT", "SELL", 0.01, 50000.0)
-
-OCO order
-from src.advanced.oco import place_oco_order
-place_oco_order(bot, "BTCUSDT", "SELL", 0.01, 52000.0, 48000.0)
+# Place limit order
+result = bot.place_limit_order(
+    symbol="BTCUSDT",
+    side="BUY",
+    quantity=0.01,
+    price=50000.0
+)
 ```
 
 ## 📁 Project Structure
@@ -112,19 +151,22 @@ place_oco_order(bot, "BTCUSDT", "SELL", 0.01, 52000.0, 48000.0)
 binance-futures-bot/
 │
 ├── src/
-│ ├── init.py                     # Package init
-│ ├── bot.py                      # BasicBot class
-│ ├── config.py                   # Configuration
-│ ├── logger_setup.py             # Logging setup
-│ ├── app.py                      # Streamlit UI ⭐
-│ └── advanced/
-│ ├── init.py
-│ └── oco.py                      # OCO orders
-├── bot.log                       # Trading logs
-├── requirements.txt              # Dependencies
-├── .env.example                  # Environment template
-├── .gitignore                    # Git ignore rules
-└── README.md                     # This file
+│   ├── bot_core.py              # Core bot functionality
+│   └── advanced/
+│       ├── __init__.py
+│       ├── stop_limit.py        # Stop-limit orders
+│       ├── oco.py               # OCO orders
+│       ├── twap.py              # TWAP strategy
+│       └── grid_strategy.py     # Grid trading
+│
+├── logs/                        # Log files (auto-generated)
+│   └── bot_YYYYMMDD.log
+│
+├── app.py                       # Streamlit UI application
+├── requirements.txt             # Python dependencies
+├── .env.example                 # Environment variables template
+├── .gitignore                   # Git ignore rules
+└── README.md                    # This file
 ```
 
 ## 📊 Order Types

@@ -55,7 +55,7 @@ A professional, feature-rich trading bot for Binance USDT-M Futures with a beaut
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/binance-futures-bot.git
+git clone https://github.com/ShashankRajput90/binance-futures-bot.git
 cd binance-futures-bot
 ```
 
@@ -299,25 +299,6 @@ Modify `bot_core.py`:
 logging.basicConfig(level=logging.DEBUG)  # More verbose logs
 ```
 
-## 📧 Submission
-
-For the assignment submission:
-
-1. Create a ZIP file: `[your_name]_binance_bot.zip`
-2. Include:
-   - All source code
-   - `bot.log` file with execution logs
-   - `report.pdf` with screenshots and analysis
-   - This README.md
-
-3. Email to:
-   - saami@bajarangs.com
-   - nagasai@bajarangs.com
-   - chetan@bajarangs.com
-   - CC: sonika@primetrade.ai
-
-4. Subject: **"Junior Python Developer – Crypto Trading Bot"**
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
@@ -345,7 +326,5 @@ This bot is for educational purposes and Binance Futures Testnet only. Always te
 - [Streamlit Documentation](https://docs.streamlit.io/)
 
 ---
-
-**Built with ❤️ for the Binance Futures Trading Bot Assignment**
 
 *For questions or support, please open an issue on GitHub*
